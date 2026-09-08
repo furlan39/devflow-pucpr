@@ -1,0 +1,31 @@
+name: CI - Validação HTML
+
+on:
+  push:
+    branches:
+      - main
+      - feature/cicd
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validar projeto
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Verificar index.html
+        run: test -f index.html
+
+      - name: Verificar estrutura HTML
+        run: |
+          grep -qi "<!DOCTYPE html>" index.html
+          grep -qi "<html" index.html
+          grep -qi "</html>" index.html
+
+      - name: CI concluído
+        run: echo "Validação do projeto concluída com sucesso!"
