@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/cicd
 
 jobs:
   discord:
@@ -14,5 +15,5 @@ jobs:
       - name: Enviar notificação
         run: |
           curl -H "Content-Type: application/json" \
-          -d "{\"content\":\"🚀 Novo commit realizado na branch main do repositório devflow-pucpr!\"}" \
+          -d "{\"content\":\"🚀 Novo commit realizado no repositório devflow-pucpr! Branch: ${{ github.ref_name }}\"}" \
           "${{ secrets.DISCORD_WEBHOOK }}"
