@@ -1,10 +1,11 @@
-name: CI - Validação HTML
+name: CI - Validação HTML e Testes
 
 on:
   push:
     branches:
       - main
       - feature/cicd
+      - feature/testes-unitarios
   pull_request:
     branches:
       - main
@@ -18,6 +19,11 @@ jobs:
       - name: Baixar código
         uses: actions/checkout@v4
 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - name: Verificar index.html
         run: test -f index.html
 
@@ -27,5 +33,8 @@ jobs:
           grep -qi "<html" index.html
           grep -qi "</html>" index.html
 
+      - name: Executar testes unitários
+        run: node --test
+
       - name: CI concluído
-        run: echo "Validação do projeto concluída com sucesso!"
+        run: echo "Validação e testes concluídos com sucesso!"
